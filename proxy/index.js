@@ -4,10 +4,12 @@ var config = require('../config')
 var npm = require('npm')
 var http = require('http')
 var request = require('request')
-var Middleware = require('./Middleware')
+var Modifier = require('./modifier')
+
+var modifier = new Modifier({middleware: []})
 
 http.createServer(function (req, res) {
   var r = request[req.method.toLowerCase()](req.url)
   req.pipe(r)
-  r.pipe(Middleware).pipe(res)
+  r.pipe(Modifier).pipe(res)
 }).listen(config.proxyPort)
