@@ -12,4 +12,6 @@ http.createServer(function (req, res) {
   var r = request[req.method.toLowerCase()](req.url)
   req.pipe(r)
   r.pipe(Modifier).pipe(res)
-}).listen(config.proxyPort)
+}).listen(config.proxyPort, function () {
+  console.log('launched proxy on port', config.proxyPort)
+})
