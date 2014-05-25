@@ -1,0 +1,32 @@
+{
+  "name": "kimono-proxy",
+  "version": "0.0.0",
+  "description": "api proxy with middleware to rewrite contents",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lalitkapoor/kimono-proxy.git"
+  },
+  "author": "Lalit Kapoor <lalitkapoor@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/lalitkapoor/kimono-proxy/issues"
+  },
+  "homepage": "https://github.com/lalitkapoor/kimono-proxy",
+  "dependencies": {
+    "dotenv": "~0.2.8",
+    "lodash": "~2.4.1",
+    "express": "~4.3.1",
+    "bluebird": "~1.2.4",
+    "express-domain-middleware": "~0.1.0",
+    "method-override": "~1.0.2",
+    "cookie-parser": "~1.1.0",
+    "cookie-session": "~1.0.2",
+    "body-parser": "~1.2.0",
+    "github": "~0.1.16",
+    "superagent": "~0.18.0"
+  }
+}
