@@ -55,5 +55,5 @@ app.use(function (err, req, res, next) {
 })
 
 app.listen(config.port, function () {
-  console.log('launched on port', config.port)
+  console.log('launched on port', config.apiPort)
 })

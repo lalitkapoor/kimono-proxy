@@ -5,7 +5,8 @@ var _ = require('lodash')
 var config = {
   defaults: {
     host: 'localhost'
-  , port: process.env['PORT'] || 5000
+  , apiPort: process.env['API_PORT'] || 5000
+  , proxyPort: process.env['PROXY_PORT'] || 8000
   , github: {
       clientId: process.env['GITHUB_CLIENT_ID']
     , clientSecret: process.env['GITHUB_CLIENT_SECRET']
