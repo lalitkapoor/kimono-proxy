@@ -5,17 +5,51 @@ var Promise = require('bluebird')
 var npm = Promise.promisifyAll(require('npm'))
 var http = require('http')
 var urlParser = require('url').parse
+var zlib = require('zlib')
 var request = require('request')
 var Modifier = require('./modifier')
 
 // proxy server w/ middleware
 var proxy = function(middleware) {
   return new Promise(function (resolve, reject) {
-    var modifier = new Modifier({middleware: middleware || []})
     http.createServer(function (req, res) {
+      var modifier = new Modifier({middleware: middleware || []})
       var url = config.url + (urlParser(req.url).search || '')
-      var r = request[req.method.toLowerCase()](url)
-      req.pipe(r).pipe(res)
+
+      var r = request({
+        method: req.method.toLowerCase()
+      , url: url
+      , encoding: null
+      }, function (error, response, body) {
+
+        // copy headers
+        for (var header in response.headers) {
+          if (response.headers.hasOwnProperty(header)) {
+            res.setHeader(header, response.headers[header])
+          }
+        }
+
+        // res.setHeader('content-encoding', '')
+        if (response.headers['content-encoding'] === 'gzip') {
+          zlib.gunzip(body, function (error, buffer) {
+            var data = null;
+            if (buffer) data = buffer.toString()
+
+            // run through middleware here
+            // finally do this
+            zlib.gzip(new Buffer(data), function (error, buffer) {
+              res.end(buffer)
+            })
+          })
+        } else {
+          // run through middleware here
+          // finally do this
+          res.end(body)
+        }
+      })
+
+      req.pipe(r)
+
     }).listen(config.proxyPort, function (error) {
       if (error) return reject(error)
       return resolve()
