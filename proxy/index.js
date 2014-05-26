@@ -88,7 +88,7 @@ var proxy = function(middleware) {
 
         // res.setHeader('content-encoding', '')
         res.removeHeader('etag') // prevent caching
-        res.removeHeader('content-length') // prevent caching
+        res.removeHeader('content-length') // might change
         if (response.statusCode>= 200 && response.statusCode<300) {
           if (response.headers['content-encoding'] === 'gzip') {
             try {
