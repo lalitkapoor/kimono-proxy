@@ -16,7 +16,7 @@ var cors = require('./middleware/cors')
 
 //Routes
 var auth = require('./routes/auth')
-var proxy = require('./routes/proxy')
+var proxies = require('./routes/proxies')
 var middleware = require('./routes/middleware')
 
 // Hooks
@@ -40,7 +40,7 @@ app.use(session({
 
 app.use('', express.static(path.join(__dirname, 'public')))
 app.use('/v1/auth', auth)
-app.use('/v1/proxy', proxy)
+app.use('/v1/proxies', proxies)
 app.use('/v1/middleware', middleware)
 
 app.use('/v1/hooks/github', hooks.github)
