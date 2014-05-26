@@ -2,13 +2,13 @@
   "type": "transform",
   "collection": "popular",
   "field": "points",
-  "repo": "lalitkapoor/kim-transform-extract-numeric"
+  "repo": "lalitkapoor/kim-transform-extract-digits"
 },
 {
   "type": "transform",
   "collection": "popular",
   "field": "comments",
-  "repo": "lalitkapoor/kim-transform-extract-numeric"
+  "repo": "lalitkapoor/kim-transform-extract-digits"
 },
 {
   "type": "filter",
