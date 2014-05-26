@@ -1,0 +1,19 @@
+[{
+  "type": "transform",
+  "collection": "popular",
+  "field": "points",
+  "repo": "lalitkapoor/kim-extract-positive-integer"
+},
+{
+  "type": "transform",
+  "collection": "popular",
+  "field": "comments",
+  "repo": "lalitkapoor/kim-extract-positive-integer"
+},
+{
+  "type": "filter",
+  "collection": "popular",
+  "field": "comments",
+  "repo": "lalitkapoor/kim-filter-less-than",
+  "args": [5]
+}]

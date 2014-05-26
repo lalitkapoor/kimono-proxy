@@ -26,5 +26,3 @@ node_modules
 
 # Environment
 .env
-
-proxy/middleware.json
