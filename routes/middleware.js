@@ -15,7 +15,7 @@ router.get('/'
     var sql = 'SELECT * FROM middleware'
 
     db.query(sql, function (error, rows, result) {
-      if (error) return console.error(error.stack), res.json(500)
+      if (error) return console.error(error.stack), res.send(500)
       return res.json(200, rows)
     })
   }
@@ -29,7 +29,7 @@ router.get('/:id'
     var values = [req.params.id]
 
     db.query.first(sql, values, function (error, row) {
-      if (error) return console.error(error.stack), res.json(500)
+      if (error) return console.error(error.stack), res.send(500)
       return res.json(200, row)
     })
   }
@@ -50,8 +50,7 @@ router.post('/'
     ]
 
     db.query.first(sql, values, function (error, row) {
-      console.log(arguments)
-      if (error) return console.error(error.stack), res.json(500)
+      if (error) return console.error(error.stack), res.send(500)
       return res.json(201, row)
     })
   }
@@ -73,7 +72,13 @@ router.patch('/:id'
 router.delete('/:id'
 , middlewareOwnerCheck
 , function (req, res) {
-    return res.send(200)
+    var sql = 'DELETE FROM middleware WHERE id = $1'
+    var values = [req.params.id]
+
+    db.query(sql, values, function (error, row, result) {
+      if (error) return console.error(error.stack), res.send(500)
+      return res.send(200)
+    })
   }
 )
 

@@ -86,7 +86,7 @@ router.get('/github/callback', function (req, res) {
       ]
 
       db.query.first(sql, values, function (error, row) {
-        if (error) return console.error(error.stack), res.json(500)
+        if (error) return console.error(error.stack), res.send(500)
 
         if (row) req.session.user = {id: row.id}
         return res.redirect('/')
