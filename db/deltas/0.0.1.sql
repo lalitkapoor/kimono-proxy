@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS "middleware" (
   "name" TEXT NOT NULL,
   "description" TEXT,
   "type" TEXT NOT NULL,
-  "repo" TEXT NOT NULL,
+  "repo" TEXT NOT NULL UNIQUE,
   "createdAt" timestamptz DEFAULT now()
 );
 
