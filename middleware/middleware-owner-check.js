@@ -1,7 +1,7 @@
 var db = require('../db')
 
 module.exports = function (req, res, next) {
-  var sql = 'SELECT id FROM middleware WHERE id = $1 AND userId = $2'
+  var sql = 'SELECT id FROM middleware WHERE id = $1 AND "userId" = $2'
   var values = [req.params.id, req.user.id]
 
   db.query.first(sql, values, function (error, row) {
