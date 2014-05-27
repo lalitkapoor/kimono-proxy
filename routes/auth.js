@@ -7,6 +7,7 @@ var GitHubApi = require('github')
 var request = require('superagent')
 var crypto = Promise.promisifyAll(require('crypto'))
 var router = require('express').Router()
+var db = require('../db')
 
 var github = new GitHubApi({
   version: "3.0.0"
@@ -62,9 +63,34 @@ router.get('/github/callback', function (req, res) {
       if (error) return res.send(500, 'an error occurred talking to github')
       if (!user.id) return res.send(500, 'an error occurred getting user from github')
 
-      var data = _.extend({}, user, {oauth: oauth})
-      req.session.github = {user: user, oauth: oauth, token: token}
-      return res.redirect('/')
+      // upsert incase github token changes
+      var sql = 'WITH upsert AS ( '
+        + 'UPDATE users SET "githubToken" = $1, "githubUsername" = $2'
+        + 'WHERE "githubId" = $3 RETURNING * '
+        + '), '
+        + 'outcome AS ( '
+        + 'INSERT INTO users ("email", "name", "githubId", "githubUsername", "githubToken") '
+        + 'SELECT $4, $5, $6, $7, $8 '
+        + 'WHERE NOT EXISTS (SELECT id FROM upsert LIMIT 1) RETURNING * '
+        + ') '
+        + 'SELECT * FROM upsert UNION ALL SELECT * FROM outcome'
+      var values = [
+        token
+      , user.login
+      , user.id
+      , user.email
+      , user.name
+      , user.id
+      , user.login
+      , token
+      ]
+
+      db.query.first(sql, values, function (error, row) {
+        if (error) return console.error(error.stack), res.json(500)
+
+        if (row) req.session.user = {id: row.id}
+        return res.redirect('/')
+      })
     })
   })
 })
