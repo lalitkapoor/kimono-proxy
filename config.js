@@ -17,6 +17,9 @@ var config = {
 , dev: {
     env: 'dev'
   , isDev: true
+  , pg: {
+      connStr: 'postgres://localhost:5432/kimproxy'
+    }
   }
 
 , prod: {
