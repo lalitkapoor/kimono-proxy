@@ -9,7 +9,7 @@ var db = require('../db')
 router.all('*', authCheck)
 
 
-// list of all middleware (including other users)
+// list of all middleware
 router.get('/'
 , function (req, res) {
   var sql = 'SELECT * FROM middleware'
@@ -20,6 +20,18 @@ router.get('/'
   })
 })
 
+
+// get single middleware
+router.get('/:id'
+, function (req, res) {
+  var sql = 'SELECT * FROM middleware WHERE id = $1'
+  var values = [req.params.id]
+
+  db.query.first(sql, values, function (error, row) {
+    if (error) return console.error(error.stack), res.json(500)
+    return res.json(200, row)
+  })
+})
 
 // create middleware
 // Schema + contents: {"filename": "content"}
