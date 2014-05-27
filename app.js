@@ -54,6 +54,7 @@ app.use(function (err, req, res, next) {
   res.send(500, 'An error has occurred')
 })
 
-app.listen(config.port, function () {
-  console.log('launched API on port', config.apiPort)
+app.listen(config.port, function (error) {
+  if (error) return console.error(error)
+  console.log('launched API on port', config.port)
 })
