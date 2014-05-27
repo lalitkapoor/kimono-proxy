@@ -28,10 +28,15 @@ CREATE TABLE IF NOT EXISTS "proxies" (
   "userId" INT NOT NULL REFERENCES "users" ("id"),
   "name" TEXT NOT NULL,
   "description" TEXT,
-  "type" TEXT NOT NULL,
-  "middleware" JSON,
+  "documentation" TEXT,
+  "subdomain" TEXT NOT NULL,
+  "url" TEXT NOT NULL, -- URL we are proxying to
+  "middleware" JSON DEFAULT '[]',
+  "status" TEXT NOT NULL DEFAULT 'stopped',
   "createdAt" timestamptz DEFAULT now()
 );
+
+CREATE UNIQUE INDEX "proxies_idx_userId_name" ON proxies ("userId", "name");
 
 CREATE TABLE IF NOT EXISTS "middleware" (
   "id" serial PRIMARY KEY,
