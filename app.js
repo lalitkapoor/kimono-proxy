@@ -14,6 +14,8 @@ var methodOverride = require('method-override')
 var domainMiddleware = require('express-domain-middleware')
 var cors = require('./middleware/cors')
 
+var getUser = require('./middleware/get-user')
+
 //Routes
 var auth = require('./routes/auth')
 var proxies = require('./routes/proxies')
@@ -39,6 +41,9 @@ app.use(session({
 }))
 
 app.use('', express.static(path.join(__dirname, 'public')))
+
+app.use(getUser)
+
 app.use('/v1/auth', auth)
 app.use('/v1/proxies', proxies)
 app.use('/v1/middleware', middleware)
