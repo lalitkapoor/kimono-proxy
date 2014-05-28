@@ -127,18 +127,22 @@ router.post('/:id/start'
             db.query.first(sql, values, function (error, row) {
               if (error) return console.error(error.stack), res.send(500)
 
-              docker.launchContainer({imageId: imageId, hostPort: ++hostPort}
-              , function (error, containerId) {
-                  if (error) return console.error(error.stack), res.send(500)
+              docker.killContainer(row.containerId, function (error, data) {
+                if (error) return console.error(error.stack), res.send(500)
 
-                  var sql = 'UPDATE proxies SET "containerId" = $1 WHERE id = $2 RETURNING *'
-                  var values = [containerId, req.params.id]
-                  db.query.first(sql, values, function (error, row) {
+                docker.launchContainer({imageId: imageId, hostPort: ++hostPort}
+                , function (error, containerId) {
                     if (error) return console.error(error.stack), res.send(500)
-                    return res.json(200, row)
-                  })
-                }
-              )
+
+                    var sql = 'UPDATE proxies SET "containerId" = $1 WHERE id = $2 RETURNING *'
+                    var values = [containerId, req.params.id]
+                    db.query.first(sql, values, function (error, row) {
+                      if (error) return console.error(error.stack), res.send(500)
+                      return res.json(200, row)
+                    })
+                  }
+                )
+              })
             })
           })
         }
