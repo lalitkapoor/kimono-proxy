@@ -6,8 +6,6 @@ var authCheck = require('../middleware/auth-check')
 var proxyOwnerCheck = require('../middleware/proxy-owner-check')
 var db = require('../db')
 
-router.all('*', authCheck)
-
 
 // list of all proxies
 router.get('/'
@@ -38,6 +36,7 @@ router.get('/:id'
 
 // create proxy
 router.post('/'
+, authCheck
 , function (req, res) {
     var sql = 'INSERT INTO proxies '
       + '("userId", "name", "description", "documentation", "subdomain", "url", "middleware") '
@@ -62,6 +61,7 @@ router.post('/'
 
 // modify proxy that you are authorized to modify
 router.patch('/:id'
+, authCheck
 , proxyOwnerCheck
 , function (req, res) {
     return res.send(200)
@@ -71,6 +71,7 @@ router.patch('/:id'
 
 // delete proxy that you are authorized to modify
 router.delete('/:id'
+, authCheck
 , proxyOwnerCheck
 , function (req, res) {
     var sql = 'DELETE FROM proxies WHERE id = $1'
@@ -86,6 +87,7 @@ router.delete('/:id'
 
 // start your proxy
 router.post('/:id/start'
+, authCheck
 , function (req, res) {
     // check if docker container is running
     // if not running, start it, else ignore
@@ -97,6 +99,7 @@ router.post('/:id/start'
 
 // stop your proxy
 router.post('/:id/stop'
+, authCheck
 , function (req, res) {
     // check if docker container is running
     // if so stop it, else ignore
@@ -107,6 +110,7 @@ router.post('/:id/stop'
 
 // restart your proxy
 router.post('/:id/restart'
+, authCheck
 , function (req, res) {
     // check if docker container is running
     // if so stop it and start it else start it

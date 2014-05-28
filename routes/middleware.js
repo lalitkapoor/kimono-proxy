@@ -6,8 +6,6 @@ var authCheck = require('../middleware/auth-check')
 var middlewareOwnerCheck = require('../middleware/middleware-owner-check')
 var db = require('../db')
 
-router.all('*', authCheck)
-
 
 // list of all middleware
 router.get('/'
@@ -39,6 +37,7 @@ router.get('/:id'
 // create middleware
 // Schema + contents: {"filename": "content"}
 router.post('/'
+, authCheck
 , function (req, res) {
     var sql = 'INSERT INTO middleware ("userId", "name", "description", "type", "repo") '
             + 'VALUES ($1, $2, $3, $4, $5) RETURNING *'
@@ -62,6 +61,7 @@ router.post('/'
 // create middleware-owner-check middleware
 // create repo in user's github & add files
 router.patch('/:id'
+, authCheck
 , middlewareOwnerCheck
 , function (req, res) {
     return res.send(200)
@@ -71,6 +71,7 @@ router.patch('/:id'
 
 // delete middleware that you are authorized to modify
 router.delete('/:id'
+, authCheck
 , middlewareOwnerCheck
 , function (req, res) {
     var sql = 'DELETE FROM middleware WHERE id = $1'
