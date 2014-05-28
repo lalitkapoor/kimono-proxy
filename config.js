@@ -10,7 +10,7 @@ var config = {
       clientId: process.env['GITHUB_CLIENT_ID']
     , clientSecret: process.env['GITHUB_CLIENT_SECRET']
     }
-  , apiProxyTarballLink: 'https://github.com/lalitkapoor/node-api-proxy/tarball/master'
+  , templatesDir: __dirname + '/templates'
   }
 
 , dev: {
@@ -18,6 +18,10 @@ var config = {
   , isDev: true
   , pg: {
       connStr: 'postgres://localhost:5432/kimproxy'
+    }
+  , dockerInit: {
+      host: 'http://localhost'
+    , port: 4243
     }
   }
 

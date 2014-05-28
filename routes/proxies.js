@@ -1,11 +1,15 @@
 var config = require('../config')
 var _ = require('lodash')
 var Promise = require('bluebird')
+var fs = require('fs')
+var tar = require('tar-stream')
 var router = require('express').Router()
 var authCheck = require('../middleware/auth-check')
 var proxyOwnerCheck = require('../middleware/proxy-owner-check')
 var db = require('../db')
+var docker = require('../lib/docker')
 
+var hostPort = 8080
 
 // list of all proxies
 router.get('/'
@@ -88,11 +92,62 @@ router.delete('/:id'
 // start your proxy
 router.post('/:id/start'
 , authCheck
+, proxyOwnerCheck
 , function (req, res) {
+    var sql = 'SELECT * FROM proxies WHERE id = $1'
+    var values = [req.params.id]
+
+    db.query.first(sql, values, function (error, row) {
+      if (error) return console.error(error.stack), res.send(500)
+
+      fs.readFile(config.templatesDir + '/Dockerfile'
+      , {encoding: 'utf8'}
+      , function (error, data) {
+          if (error) return console.error(error.stack), res.send(500)
+
+          var configLink = req.protocol + '://' + req.get('host') + req.originalUrl
+          data = data.replace('{PORT}', 80)
+          data = data.replace('{URL}', row.url)
+          data = data.replace('{CONFIG_LINK}', configLink)
+
+          var tarball = tar.pack()
+
+          tarball.entry({name: 'Dockerfile'}, data)
+          tarball.finalize()
+
+          docker.buildImage({
+            tarball: tarball
+          , tagName: row.useId + '-' + row.subdomain
+          }, function (error, imageId) {
+            if (error) return console.error(error.stack), res.send(500)
+
+            var sql = 'UPDATE proxies SET "imageId" = $1 WHERE id = $2 RETURNING *'
+            var values = [imageId, req.params.id]
+
+            db.query.first(sql, values, function (error, row) {
+              if (error) return console.error(error.stack), res.send(500)
+
+              docker.launchContainer({imageId: imageId, hostPort: ++hostPort}
+              , function (error, containerId) {
+                  if (error) return console.error(error.stack), res.send(500)
+
+                  var sql = 'UPDATE proxies SET "containerId" = $1 WHERE id = $2 RETURNING *'
+                  var values = [containerId, req.params.id]
+                  db.query.first(sql, values, function (error, row) {
+                    if (error) return console.error(error.stack), res.send(500)
+                    return res.json(200, row)
+                  })
+                }
+              )
+            })
+          })
+        }
+      )
+    })
+
     // check if docker container is running
     // if not running, start it, else ignore
     // if already running ignore
-    return res.send(200)
   }
 )
 
@@ -100,6 +155,7 @@ router.post('/:id/start'
 // stop your proxy
 router.post('/:id/stop'
 , authCheck
+, proxyOwnerCheck
 , function (req, res) {
     // check if docker container is running
     // if so stop it, else ignore
@@ -111,6 +167,7 @@ router.post('/:id/stop'
 // restart your proxy
 router.post('/:id/restart'
 , authCheck
+, proxyOwnerCheck
 , function (req, res) {
     // check if docker container is running
     // if so stop it and start it else start it

@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS "proxies" (
   "subdomain" TEXT NOT NULL,
   "url" TEXT NOT NULL, -- URL we are proxying to
   "middleware" JSON DEFAULT '[]',
+  "imageId" TEXT,
+  "containerId" TEXT,
   "status" TEXT NOT NULL DEFAULT 'stopped',
   "createdAt" timestamptz DEFAULT now()
 );
