@@ -105,7 +105,7 @@ router.post('/:id/start'
       , function (error, data) {
           if (error) return console.error(error.stack), res.send(500)
 
-          var configLink = req.protocol + '://' + req.get('host') + req.originalUrl
+          var configLink = req.protocol + '://' + req.get('host') + '/v1/proxies/' + req.params.id
           data = data.replace('{PORT}', 80)
           data = data.replace('{URL}', row.url)
           data = data.replace('{CONFIG_LINK}', configLink)
