@@ -117,7 +117,7 @@ router.post('/:id/start'
 
           docker.buildImage({
             tarball: tarball
-          , tagName: row.useId + '-' + row.subdomain
+          , tagName: row.userId + '-' + row.subdomain
           }, function (error, imageId) {
             if (error) return console.error(error.stack), res.send(500)
 
