@@ -121,8 +121,9 @@ router.post('/:id/start'
           }, function (error, imageId) {
             if (error) return console.error(error.stack), res.send(500)
 
-            var sql = 'UPDATE proxies SET "imageId" = $1 WHERE id = $2 RETURNING *'
-            var values = [imageId, req.params.id]
+            var sql = 'UPDATE proxies SET "imageId" = $1, status = $2 '
+              + 'WHERE id = $3 RETURNING *'
+            var values = [imageId, 'starting', req.params.id]
 
             db.query.first(sql, values, function (error, row) {
               if (error) return console.error(error.stack), res.send(500)
@@ -134,8 +135,9 @@ router.post('/:id/start'
                 , function (error, containerId) {
                     if (error) return console.error(error.stack), res.send(500)
 
-                    var sql = 'UPDATE proxies SET "containerId" = $1 WHERE id = $2 RETURNING *'
-                    var values = [containerId, req.params.id]
+                    var sql = 'UPDATE proxies SET "containerId" = $1, "status" = $2 '
+                      + 'WHERE id = $3 RETURNING *'
+                    var values = [containerId, 'running', req.params.id]
                     db.query.first(sql, values, function (error, row) {
                       if (error) return console.error(error.stack), res.send(500)
                       return res.json(200, row)
@@ -161,8 +163,7 @@ router.post('/:id/stop'
 , authCheck
 , proxyOwnerCheck
 , function (req, res) {
-    // check if docker container is running
-    // if so stop it, else ignore
+
     return res.send(200)
   }
 )
