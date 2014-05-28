@@ -4,7 +4,7 @@ ENV PORT {PORT}
 ENV URL {URL}
 ENV CONFIG_LINK {CONFIG_LINK}
 
-RUN apt-get install -y software-properties-common python-software-properties python curl
+RUN apt-get install -y software-properties-common python-software-properties python curl git
 RUN add-apt-repository -y ppa:chris-lea/node.js
 RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ precise universe" >> /etc/apt/sources.list
 RUN apt-get update
