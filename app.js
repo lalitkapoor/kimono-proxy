@@ -43,7 +43,7 @@ app.use(session({
   }
 }))
 
-app.use('', express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(getUser)
 
@@ -53,9 +53,6 @@ app.use('/v1/middleware', middleware)
 
 app.use('/v1/hooks/github', hooks.github)
 
-app.get(/^\/?$/, function (req, res) {
-  res.send(200, '')
-})
 // last resort error handler
 app.use(function (err, req, res, next) {
   console.error(err.name, err.stack)
