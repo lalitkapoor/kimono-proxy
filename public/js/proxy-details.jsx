@@ -18,7 +18,7 @@ var ProxyDetails = React.createClass({
           <div className="panel-heading">Documentation</div>
           <div className="panel-body">
             <div className="documentation"
-              dangerouslySetInnerHTML={{__html: marked(this.props.data.documentation)}}
+              dangerouslySetInnerHTML={{__html: marked(this.props.data.documentation || '')}}
             />
           </div>
         </div>
