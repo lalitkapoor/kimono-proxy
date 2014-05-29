@@ -1,0 +1,15 @@
+body {
+  padding-top: 70px;
+}
+
+.proxy .description {
+  color: #989898;
+}
+
+.middleware .element {
+  font-weight: 500;
+}
+
+.middleware .repo {
+  color: #989898;
+}

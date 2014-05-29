@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/components/highlightjs/styles/github.css">
+    <link href="/css/master.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Kimono API Proxy</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#Proxies">Proxies</a></li>
+            <li><a href="#Middleware">Middleware</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/v1/auth/github">Login</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container" id="container">
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/components/jquery/dist/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="/components/superagent/superagent.js"></script>
+    <script src="/components/react/JSXTransformer.js"></script>
+    <script src="/components/react/react-with-addons.min.js"></script>
+
+    <script src="/components/marked/lib/marked.js"></script>
+    <script src="/components/highlightjs/highlight.pack.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad()
+      var marked = marked.setOptions({
+        gfm: true
+      , highlight: function (code) {
+          return hljs.highlightAuto(code).value
+        }
+      })
+    </script>
+
+
+    <script type="text/jsx"  src="/js/proxy-details.jsx"></script>
+    <script type="text/jsx"  src="/js/proxy.jsx"></script>
+    <script type="text/jsx"  src="/js/proxies.jsx"></script>
+
+    <script type="text/jsx"  src="/js/middleware.jsx"></script>
+    <script type="text/jsx"  src="/js/middleware-list.jsx"></script>
+
+    <script type="text/jsx" src="/js/master.jsx"></script>
+  </body>
+</html>
