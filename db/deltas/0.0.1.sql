@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "deltas" (
 
 CREATE TABLE IF NOT EXISTS "users" (
   "id" serial PRIMARY KEY,
-  "email" citext NOT NULL UNIQUE,
+  "email" citext, -- NOT NULL UNIQUE,
   "name" citext,
   "githubId" INT NOT NULL UNIQUE,
   "githubUsername" TEXT NOT NULL UNIQUE,
