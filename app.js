@@ -26,6 +26,9 @@ var hooks = {}
 hooks.github = require('./routes/hooks/github')
 
 var app = express()
+
+app.set('json spaces', 2)
+
 app.use(domainMiddleware)
 app.use(bodyParser({limit: '10mb'}))
 app.use(methodOverride())
