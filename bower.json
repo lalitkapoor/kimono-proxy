@@ -1,0 +1,20 @@
+{
+  "name": "kimono-proxy",
+  "version": "0.0.0",
+  "homepage": "https://github.com/lalitkapoor/kimono-proxy",
+  "authors": [
+    "Lalit Kapoor <lalitkapoor@gmail.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1"
+  }
+}
