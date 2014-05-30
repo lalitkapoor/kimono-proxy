@@ -129,15 +129,18 @@ router.post('/:id/start'
               if (error) return console.error(error.stack), res.send(500)
 
               docker.killContainer(row.containerId, function (error, data) {
-                if (error) return console.error(error.stack), res.send(500)
+                // don't error out if we can't find a container to kill
+                if (error && error.message.indexOf('No such container') === -1)
+                  return console.error(error.stack), res.send(500)
 
-                docker.launchContainer({imageId: imageId, hostPort: ++hostPort}
+                var port = ++hostPort
+                console.log(port)
+                docker.launchContainer({imageId: imageId, hostPort: port}
                 , function (error, containerId) {
                     if (error) return console.error(error.stack), res.send(500)
-
-                    var sql = 'UPDATE proxies SET "containerId" = $1, "status" = $2 '
-                      + 'WHERE id = $3 RETURNING *'
-                    var values = [containerId, 'running', req.params.id]
+                    var sql = 'UPDATE proxies SET "containerId" = $1, "status" = $2, "port" = $3 '
+                      + 'WHERE id = $4 RETURNING *'
+                    var values = [containerId, 'running', port, req.params.id]
                     db.query.first(sql, values, function (error, row) {
                       if (error) return console.error(error.stack), res.send(500)
                       return res.json(200, row)
