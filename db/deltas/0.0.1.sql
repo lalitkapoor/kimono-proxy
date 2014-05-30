@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS "proxies" (
   "middleware" JSON DEFAULT '[]',
   "imageId" TEXT,
   "containerId" TEXT,
+  "port" INT,
   "status" TEXT NOT NULL DEFAULT 'stopped',
   "createdAt" timestamptz DEFAULT now()
 );

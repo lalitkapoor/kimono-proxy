@@ -18,6 +18,7 @@ var Proxy = React.createClass({
 , render: function () {
     var statusColor = "";
     if (this.props.data.status === 'stopped') statusColor = 'alert-danger'
+    if (this.props.data.status === 'stopping') statusColor = 'alert-warning'
     if (this.props.data.status === 'starting') statusColor = 'alert-warning'
     if (this.props.data.status === 'running') statusColor = 'alert-success'
 
