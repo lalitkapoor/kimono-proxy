@@ -10,6 +10,9 @@ var ProxyDetails = React.createClass({
   }
 
 , render: function () {
+    var middlewareNodes = this.props.data.middleware.map(function (middleware, idx) {
+      return ProxyMiddleware({data: middleware})
+    })
     return (
       <div className="proxy-details">
         <div className="url">{this.props.data.url}</div> <br />
@@ -23,9 +26,14 @@ var ProxyDetails = React.createClass({
           </div>
         </div>
 
-        <MiddlewareList
-          data = {this.props.data.middleware}
-        />
+        <div>
+          <div className="panel panel-info">
+            <div className="panel-heading">{this.props.heading || 'Middleware'}</div>
+            <div className="list-group">
+              {middlewareNodes}
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Kimono API Proxy</title>
 
     <!-- Bootstrap -->
     <link href="/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,8 +41,17 @@
     <div class="container" id="container">
     </div>
 
+    <div id="modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+        </div>
+      </div>
+    </div>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/components/jquery/dist/jquery.min.js"></script>
+    <script src="/components/jquery.serializeJSON/jquery.serializejson.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -63,12 +72,16 @@
     </script>
 
 
-    <script type="text/jsx"  src="/js/proxy-details.jsx"></script>
+    <script type="text/jsx"  src="/js/page-proxies.jsx"></script>
+
     <script type="text/jsx"  src="/js/proxy.jsx"></script>
-    <script type="text/jsx"  src="/js/proxies.jsx"></script>
+    <script type="text/jsx"  src="/js/proxy-details.jsx"></script>
+    <script type="text/jsx"  src="/js/proxy-middleware.jsx"></script>
+
+    <script type="text/jsx"  src="/js/modal-create-proxy.jsx"></script>
+    <script type="text/jsx"  src="/js/proxy-middleware-edit.jsx"></script>
 
     <script type="text/jsx"  src="/js/middleware.jsx"></script>
-    <script type="text/jsx"  src="/js/middleware-list.jsx"></script>
 
     <script type="text/jsx" src="/js/master.jsx"></script>
   </body>
