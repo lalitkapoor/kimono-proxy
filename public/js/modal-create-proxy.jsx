@@ -37,6 +37,27 @@ var ModalCreateProxy = React.createClass({
     this.setState(this.state)
   }
 
+, createProxy: function () {
+    var data = $('.create-proxy form').serializeJSON()
+    data.middleware = [];
+
+    $('.proxy-middleware-list .proxy-middleware-edit form').each(function (idx, element) {
+      var middleware = $(element).serializeJSON()
+      middleware.args = JSON.parse("["+middleware.args+"]")
+      data.middleware.push(middleware)
+    })
+
+    console.log(data)
+
+    superagent
+    .post('/v1/proxies')
+    .send(data)
+    .end(function (error, res) {
+      if (error) return alert('Sorry!, an error occurred while creating your proxy.'), console.log(error.stack)
+      window.location.reload()
+    })
+  }
+
 , render: function () {
     var self = this
 
@@ -71,32 +92,32 @@ var ModalCreateProxy = React.createClass({
                 <div className="form-group">
                   <label for="name" className="col-sm-2 control-label">name</label>
                   <div className="col-sm-10">
-                    <input type="text" required className="form-control" id="name" placeholder="one-liner" />
+                    <input type="text" name="name" required className="form-control" id="name" placeholder="one-liner" />
                   </div>
                 </div>
                 <div className="form-group">
                   <label for="url" className="col-sm-2 control-label">url</label>
                   <div className="col-sm-10">
-                    <input type="url" required pattern="https?://.+" className="form-control" id="url" placeholder="full url (with http/https)" />
+                    <input type="url" name="url" required pattern="https?://.+" className="form-control" id="url" placeholder="full url (with http/https)" />
                   </div>
                 </div>
                 <div className="form-group">
                   <label for="subdomain" className="col-sm-2 control-label">subdomain</label>
                   <div className="col-sm-10">
-                    <input type="text" required className="form-control" id="subdomain" placeholder="awesome-name-here" />
+                    <input type="text" name="subdomain" required className="form-control" id="subdomain" placeholder="awesome-name-here" />
                   </div>
                 </div>
                 <div className="form-group">
                   <label for="description" className="col-sm-2 control-label">description</label>
                   <div className="col-sm-10">
-                    <input type="text" required className="form-control" id="description" placeholder="one-liner" />
+                    <input type="text" name="description" required className="form-control" id="description" placeholder="one-liner" />
                   </div>
                 </div>
               </div>
 
               <div className="panel panel-info">
                 <div className="panel-heading">Documentation</div>
-                <textarea className="form-control" id="documentation" placeholder="markdown here :)"></textarea>
+                <textarea className="form-control" id="documentation" name="documentation" placeholder="markdown here :)"></textarea>
               </div>
 
             </form>
@@ -105,15 +126,15 @@ var ModalCreateProxy = React.createClass({
               <div className="col-xs-6 col-md-6">
                 <div className="panel panel-info">
                   <div className="panel-heading">Middleware To Choose From</div>
-                  <div className="list-group">
+                  <div className="middleware-list list-group">
                     {middlewareNodes}
                   </div>
                 </div>
               </div>
               <div className="col-xs-6 col-md-6">
                 <div className="panel panel-info">
-                  <div className="panel-heading">Proxy Middleware/div>
-                  <div className="proxy-middleware-list">
+                  <div className="panel-heading">Proxy Middleware</div>
+                  <div className="proxy-middleware-list list-group">
                     {proxyMiddlewareEditNodes}
                   </div>
                 </div>
@@ -124,19 +145,9 @@ var ModalCreateProxy = React.createClass({
         </div>
         <div className="modal-footer">
           <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" className="btn btn-primary">Create</button>
+          <button type="button" className="btn btn-primary" onClick={this.createProxy}>Create</button>
         </div>
       </div>
     )
   }
 })
-
-
-
-
-
-
-
-
-
-

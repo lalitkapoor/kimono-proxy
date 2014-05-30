@@ -17,9 +17,14 @@ var ProxyMiddlewareEdit = React.createClass({
 , render: function () {
     return (
       <a className="list-group-item proxy-middleware-edit">
-        <input type="text" name="collection" className="collection form-control" placeholder="collection" />
-        <input type="text" name="field" className="field form-control" placeholder="field name" />
-        <input type="text" name="args" className="args form-control" placeholder="arguments comma separated" />
+        <form>
+          <input type="hidden" name="repo" value={this.props.data.repo} />
+          <input type="hidden" name="type" value={this.props.data.type} />
+          <input type="text" name="collection" className="collection form-control" placeholder="collection" />
+          <input type="text" name="field" className="field form-control" placeholder="field name" />
+          <input type="text" name="args" className="args form-control" placeholder="arguments comma separated" />
+        </form>
+
         <span className="badge alert-warning type">{this.props.data.type}</span>
         <p className="repo">{this.props.data.repo}</p>
         <p className="description">{this.props.data.description}</p>
