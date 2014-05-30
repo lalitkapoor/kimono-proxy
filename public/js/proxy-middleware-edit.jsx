@@ -10,7 +10,6 @@ var ProxyMiddlewareEdit = React.createClass({
   }
 
 , removeMiddlewareFromProxy: function (event) {
-    console.log(arguments)
     this.props.handlers.removeMiddlewareFromProxy(this, event)
   }
 
